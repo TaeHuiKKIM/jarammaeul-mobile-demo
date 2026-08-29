@@ -1,24 +1,24 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { ArrowLeft, Bell, Check, ChevronDown, Heart, Home, Layers3, MapPin, PackagePlus, Search, Shirt, ShoppingBag, Sparkles, Sprout } from 'lucide-react';
+import { ArrowLeft, Bell, Check, ChevronDown, Heart, Home, Layers3, MapPin, PackagePlus, Search, Shirt, ShoppingBag, Sprout } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
 
 type Route = 'home' | 'detail' | 'sell' | 'review' | 'waitlist' | 'closet';
-type Product = { id: number; title: string; size: string; season: string; condition: string; price: string; area: string; distance: string; image: string; count: number };
+type Product = { id: number; title: string; size: string; season: string; condition: string; price: string; area: string; distance: string; count: number };
 
 const products: Product[] = [
-  { id: 1, title: '110호 가을 상의 6벌', size: '110호', season: '가을', condition: '양호', price: '29,000원', area: '침산동', distance: '0.8km', image: '/product-1.jpeg', count: 6 },
-  { id: 2, title: '120호 겨울 등원룩 5벌', size: '120호', season: '겨울', condition: '깨끗함', price: '34,000원', area: '산격동', distance: '1.2km', image: '/product-3.jpeg', count: 5 },
-  { id: 3, title: '100호 니트·가디건 4벌', size: '100호', season: '봄·가을', condition: '양호', price: '22,000원', area: '복현동', distance: '1.5km', image: '/product-2.jpeg', count: 4 },
-  { id: 4, title: '110호 기모 바지 4벌', size: '110호', season: '겨울', condition: '사용감 적음', price: '18,000원', area: '대현동', distance: '2.0km', image: '/product-4.jpeg', count: 4 },
-  { id: 5, title: '120호 패딩·조끼 3벌', size: '120호', season: '겨울', condition: '양호', price: '38,000원', area: '칠성동', distance: '2.3km', image: '/product-5.jpeg', count: 3 },
-  { id: 6, title: '110호 코트·원피스 3벌', size: '110호', season: '봄·가을', condition: '깨끗함', price: '21,000원', area: '고성동', distance: '2.7km', image: '/product-6.jpeg', count: 3 },
+  { id: 1, title: '110호 가을 상의 6벌', size: '110호', season: '가을', condition: '양호', price: '29,000원', area: '침산동', distance: '0.8km', count: 6 },
+  { id: 2, title: '120호 겨울 등원룩 5벌', size: '120호', season: '겨울', condition: '깨끗함', price: '34,000원', area: '산격동', distance: '1.2km', count: 5 },
+  { id: 3, title: '100호 니트·가디건 4벌', size: '100호', season: '봄·가을', condition: '양호', price: '22,000원', area: '복현동', distance: '1.5km', count: 4 },
+  { id: 4, title: '110호 기모 바지 4벌', size: '110호', season: '겨울', condition: '사용감 적음', price: '18,000원', area: '대현동', distance: '2.0km', count: 4 },
+  { id: 5, title: '120호 패딩·조끼 3벌', size: '120호', season: '겨울', condition: '양호', price: '38,000원', area: '칠성동', distance: '2.3km', count: 3 },
+  { id: 6, title: '110호 코트·원피스 3벌', size: '110호', season: '봄·가을', condition: '깨끗함', price: '21,000원', area: '고성동', distance: '2.7km', count: 3 },
 ];
-const newListingProduct: Product = { ...products[0], id: 99, title: '110호 가을 성장꾸러미 6벌', area: '김태희 · 침산동', distance: '방금 전' };
+const newListingProduct: Product = { ...products[0], id: 1, title: '110호 가을 성장꾸러미 6벌', area: '김태희 · 침산동', distance: '방금 전' };
 const categories = ['전체', '100호', '110호', '120호', '봄·가을', '겨울'];
 
 function routeFromHash(): Route {
@@ -80,7 +80,12 @@ function HomeScreen({ filter, query, products, addedListing, onFilter, onQuery, 
 }
 
 function ProductCard({ product, onOpen, highlight = false }: { product: Product; onOpen: () => void; highlight?: boolean }) {
-  return <button type="button" className={`product-card ${highlight ? 'new-listing' : ''}`} onClick={onOpen} aria-label={`${product.title} 상세 보기`}><div className="product-image"><img src={product.image} alt={product.title} onError={(event) => { event.currentTarget.style.display = 'none'; }} />{highlight && <Badge>방금 등록</Badge>}</div><div className="product-copy"><div className="tag-line"><span>{product.size}</span><span>{product.season}</span></div><strong>{product.title}</strong><b>{product.price}</b><small>{product.area} · {product.distance}</small></div></button>;
+  return <button type="button" className={`product-card ${highlight ? 'new-listing' : ''}`} onClick={onOpen} aria-label={`${product.title} 상세 보기`}><div className="product-image"><ProductVisual index={product.id} alt={product.title} />{highlight && <Badge>방금 등록</Badge>}</div><div className="product-copy"><div className="tag-line"><span>{product.size}</span><span>{product.season}</span></div><strong>{product.title}</strong><b>{product.price}</b><small>{product.area} · {product.distance}</small></div></button>;
+}
+
+function ProductVisual({ index, alt, className = '' }: { index: number; alt: string; className?: string }) {
+  const normalized = ((index - 1) % 6) + 1;
+  return <div className={`product-visual visual-${normalized} ${className}`} role="img" aria-label={alt} />;
 }
 
 function ScreenTop({ title, onBack }: { title: string; onBack?: () => void }) {
@@ -88,16 +93,16 @@ function ScreenTop({ title, onBack }: { title: string; onBack?: () => void }) {
 }
 
 function DetailScreen({ product, onBack, onWait }: { product: Product; onBack: () => void; onWait: () => void }) {
-  return <div className="screen detail-screen"><ScreenTop title="성장꾸러미 상세" onBack={onBack} /><div className="detail-hero"><img src={product.image} alt={product.title} /><span>{product.count}벌 구성</span></div><div className="detail-body"><div className="seller-line"><div className="avatar">자</div><div><strong>자람이네</strong><span><MapPin /> {product.area} · {product.distance}</span></div><Badge variant="secondary">생활권 인증</Badge></div><div className="detail-title"><div className="tag-line"><span>{product.size}</span><span>{product.season}</span><span>{product.condition}</span></div><h1>{product.title}</h1><strong>{product.price}</strong></div><div className="info-list"><div><Sprout /><span><b>예상 착용시기</b>지금부터 초겨울까지</span></div><div><Layers3 /><span><b>구성</b>니트 2, 맨투맨 2, 가디건 1, 바지 1</span></div><div><Sparkles /><span><b>추천 이유</b>현재 110호를 정리 중인 아이에게 맞는 다음 교체 흐름이에요.</span></div></div><div className="match-card"><span>다음 옷 기다림과 맞아요</span><strong>120호 · 겨울 · 상의/아우터</strong><button type="button" onClick={onWait}>추천 흐름 보기</button></div></div><div className="sticky-actions"><Button variant="outline" className="heart-action" aria-label="찜"><Heart /></Button><Button className="brand-button" onClick={onWait}>다음 옷 기다림 등록</Button></div></div>;
+  return <div className="screen detail-screen"><ScreenTop title="성장꾸러미 상세" onBack={onBack} /><div className="detail-hero"><ProductVisual index={product.id} alt={product.title} /><span>{product.count}벌 구성</span></div><div className="detail-body"><div className="seller-line"><div className="avatar">자</div><div><strong>자람이네</strong><span><MapPin /> {product.area} · {product.distance}</span></div><Badge variant="secondary">생활권 인증</Badge></div><div className="detail-title"><div className="tag-line"><span>{product.size}</span><span>{product.season}</span><span>{product.condition}</span></div><h1>{product.title}</h1><strong>{product.price}</strong></div><div className="info-list"><div><Sprout /><span><b>예상 착용시기</b>지금부터 초겨울까지</span></div><div><Layers3 /><span><b>구성</b>니트 2, 맨투맨 2, 가디건 1, 바지 1</span></div><div><img src="/jarammaeul-symbol.png" alt="" className="inline-brand-mark" /><span><b>추천 이유</b>현재 110호를 정리 중인 아이에게 맞는 다음 교체 흐름이에요.</span></div></div><div className="match-card"><span>다음 옷 기다림과 맞아요</span><strong>120호 · 겨울 · 상의/아우터</strong><button type="button" onClick={onWait}>추천 흐름 보기</button></div></div><div className="sticky-actions"><Button variant="outline" className="heart-action" aria-label="찜"><Heart /></Button><Button className="brand-button" onClick={onWait}>다음 옷 기다림 등록</Button></div></div>;
 }
 
 function SellScreen({ onBack, onReview }: { onBack: () => void; onReview: () => void }) {
-  const samples = ['/product-1.jpeg', '/product-2.jpeg', '/product-3.jpeg', '/product-4.jpeg', '/product-5.jpeg', '/product-6.jpeg'];
-  return <div className="screen sell-screen"><ScreenTop title="성장꾸러미 등록" onBack={onBack} /><div className="screen-content compact-content"><div className="step-heading"><span>1</span><div><strong>사진을 한 번에 올려주세요</strong><small>같은 계절·사이즈 옷을 6장 선택했어요.</small></div></div><div className="sample-grid">{samples.map((src, index) => <div key={src}><img src={src} alt={`아동복 샘플 ${index + 1}`} /><span>{index + 1}</span></div>)}</div><div className="step-heading"><span>2</span><div><strong>사진에서 정보를 읽었어요</strong><small>틀린 정보가 있는지만 확인해주세요.</small></div></div><div className="ai-result-card"><div className="ai-result-head"><Sparkles /><strong>110호 가을 성장꾸러미</strong><Badge variant="outline">확인 필요 1개</Badge></div><div className="result-tags"><span>상의 5벌</span><span>바지 1벌</span><span>가을</span><span>상태 양호</span></div><div className="check-row"><Check /><span>라벨 5장 확인</span><small>가디건 1벌은 직접 확인해주세요</small></div></div><Button className="brand-button full-button" onClick={onReview}>판매글 확인</Button></div></div>;
+  const samples = [1, 3, 2, 4, 5, 6];
+  return <div className="screen sell-screen"><ScreenTop title="성장꾸러미 등록" onBack={onBack} /><div className="screen-content compact-content"><div className="step-heading"><span>1</span><div><strong>사진을 한 번에 올려주세요</strong><small>같은 계절·사이즈 옷을 6장 선택했어요.</small></div></div><div className="sample-grid">{samples.map((index) => <div key={index}><ProductVisual index={index} alt={`아동복 샘플 ${index}`} /><span>{index}</span></div>)}</div><div className="step-heading"><span>2</span><div><strong>사진에서 정보를 읽었어요</strong><small>틀린 정보가 있는지만 확인해주세요.</small></div></div><div className="ai-result-card"><div className="ai-result-head"><img src="/jarammaeul-symbol.png" alt="" className="mini-brand-icon" /><strong>110호 가을 성장꾸러미</strong><Badge variant="outline">확인 필요 1개</Badge></div><div className="result-tags"><span>상의 5벌</span><span>바지 1벌</span><span>가을</span><span>상태 양호</span></div><div className="check-row"><Check /><span>라벨 5장 확인</span><small>가디건 1벌은 직접 확인해주세요</small></div></div><Button className="brand-button full-button" onClick={onReview}>판매글 확인</Button></div></div>;
 }
 
 function ReviewScreen({ onBack, onComplete }: { onBack: () => void; onComplete: () => void }) {
-  return <div className="screen review-screen"><ScreenTop title="판매글 확인" onBack={onBack} /><div className="screen-content compact-content"><div className="review-cover"><img src="/product-1.jpeg" alt="110호 가을 성장꾸러미" /><div><Badge variant="secondary">자동 입력</Badge><strong>110호 가을 상의 6벌 성장꾸러미</strong><span>침산동 · 직거래</span></div></div><ReviewSection guardian={false} /><ReviewSection guardian /><Button className="brand-button full-button" onClick={onComplete}>등록 완료</Button></div></div>;
+  return <div className="screen review-screen"><ScreenTop title="판매글 확인" onBack={onBack} /><div className="screen-content compact-content"><div className="review-cover"><ProductVisual index={1} alt="110호 가을 성장꾸러미" /><div><Badge variant="secondary">자동 입력</Badge><strong>110호 가을 상의 6벌 성장꾸러미</strong><span>침산동 · 직거래</span></div></div><ReviewSection guardian={false} /><ReviewSection guardian /><Button className="brand-button full-button" onClick={onComplete}>등록 완료</Button></div></div>;
 }
 
 function ReviewSection({ guardian }: { guardian: boolean }) {
@@ -105,11 +110,11 @@ function ReviewSection({ guardian }: { guardian: boolean }) {
 }
 
 function WaitlistScreen({ enabled, onToggle }: { enabled: boolean; onToggle: (checked: boolean) => void }) {
-  return <div className="screen waitlist-screen"><BrandHeader compact /><div className="screen-content"><div className="page-intro"><span className="eyebrow">다음 성장단계</span><h1>우리 아이의 다음 옷 기다림</h1><p>현재 옷장을 기준으로 필요한 조건을 먼저 모아요.</p></div><div className="child-card"><div className="child-icon"><Sprout /></div><div><strong>현재 110호 · 키 106cm</strong><span>가을옷 정리 중 · 겨울옷 준비 필요</span></div><button type="button">수정</button></div><section className="condition-card"><div className="condition-head"><span>기다리는 조건</span><Badge>추천 조건</Badge></div><div className="condition-grid"><div><span>사이즈</span><strong>120호</strong></div><div><span>계절</span><strong>겨울</strong></div><div><span>품목</span><strong>상의·아우터</strong></div></div></section><div className="recommend-heading"><div><strong>추천 성장꾸러미</strong><span>왜 추천했나요?</span></div><small>현재 치수와 계절을 기준으로 골랐어요.</small></div><div className="wide-product"><img src="/product-5.jpeg" alt="120호 겨울 성장꾸러미" /><div><div className="tag-line"><span>120호</span><span>겨울</span></div><strong>겨울 등원룩 5벌</strong><b>34,000원</b><small>산격동 · 1.2km</small></div></div><div className="notify-card"><div><Bell /><span><strong>입고 알림 받기</strong><small>{enabled ? '조건에 맞는 옷이 올라오면 알려드려요.' : '알림을 켜면 새 성장꾸러미를 놓치지 않아요.'}</small></span></div><Switch checked={enabled} onCheckedChange={onToggle} aria-label="입고 알림" /></div></div></div>;
+  return <div className="screen waitlist-screen"><BrandHeader compact /><div className="screen-content"><div className="page-intro"><span className="eyebrow">다음 성장단계</span><h1>우리 아이의 다음 옷 기다림</h1><p>현재 옷장을 기준으로 필요한 조건을 먼저 모아요.</p></div><div className="child-card"><div className="child-icon"><Sprout /></div><div><strong>현재 110호 · 키 106cm</strong><span>가을옷 정리 중 · 겨울옷 준비 필요</span></div><button type="button">수정</button></div><section className="condition-card"><div className="condition-head"><span>기다리는 조건</span><Badge>추천 조건</Badge></div><div className="condition-grid"><div><span>사이즈</span><strong>120호</strong></div><div><span>계절</span><strong>겨울</strong></div><div><span>품목</span><strong>상의·아우터</strong></div></div></section><div className="recommend-heading"><div><strong>추천 성장꾸러미</strong><span>왜 추천했나요?</span></div><small>현재 치수와 계절을 기준으로 골랐어요.</small></div><div className="wide-product"><ProductVisual index={5} alt="120호 겨울 성장꾸러미" /><div><div className="tag-line"><span>120호</span><span>겨울</span></div><strong>겨울 등원룩 5벌</strong><b>34,000원</b><small>산격동 · 1.2km</small></div></div><div className="notify-card"><div><Bell /><span><strong>입고 알림 받기</strong><small>{enabled ? '조건에 맞는 옷이 올라오면 알려드려요.' : '알림을 켜면 새 성장꾸러미를 놓치지 않아요.'}</small></span></div><Switch checked={enabled} onCheckedChange={onToggle} aria-label="입고 알림" /></div></div></div>;
 }
 
 function ClosetScreen({ onSell }: { onSell: () => void }) {
-  return <div className="screen closet-screen"><BrandHeader compact /><div className="screen-content"><div className="page-intro"><span className="eyebrow">김태희님의 옷장</span><h1>내 옷장</h1><p>입고 있는 옷부터 다음 순환까지 한눈에 봐요.</p></div><div className="closet-stats"><div><strong>18</strong><span>현재 옷</span></div><div><strong>4</strong><span>곧 작아질 옷</span></div><div><strong>12</strong><span>순환 완료</span></div></div><div className="outgrown-card"><div><span><Shirt /><b>작아질 가능성이 높은 옷 4벌</b></span><small>110호 가을옷 · 최근 착용 기록 기준</small></div><Button className="brand-button" onClick={onSell}>판매 준비</Button></div><section className="closet-section"><div className="section-heading"><div><span>현재 입는 옷</span><strong>110호 · 가을</strong></div><button type="button">전체보기</button></div><div className="closet-thumbs">{['/product-1.jpeg', '/product-2.jpeg', '/product-4.jpeg'].map((src, index) => <div key={src}><img src={src} alt={`현재 옷 ${index + 1}`} /><span>{['니트', '가디건', '바지'][index]}</span></div>)}</div></section><div className="cycle-summary"><Sprout /><div><strong>이번 달 3벌이 다음 아이에게 갔어요</strong><span>누적 순환 12벌 · 예상 절약 84,000원</span></div></div></div></div>;
+  return <div className="screen closet-screen"><BrandHeader compact /><div className="screen-content"><div className="page-intro"><span className="eyebrow">김태희님의 옷장</span><h1>내 옷장</h1><p>입고 있는 옷부터 다음 순환까지 한눈에 봐요.</p></div><div className="closet-stats"><div><strong>18</strong><span>현재 옷</span></div><div><strong>4</strong><span>곧 작아질 옷</span></div><div><strong>12</strong><span>순환 완료</span></div></div><div className="outgrown-card"><div><span><Shirt /><b>작아질 가능성이 높은 옷 4벌</b></span><small>110호 가을옷 · 최근 착용 기록 기준</small></div><Button className="brand-button" onClick={onSell}>판매 준비</Button></div><section className="closet-section"><div className="section-heading"><div><span>현재 입는 옷</span><strong>110호 · 가을</strong></div><button type="button">전체보기</button></div><div className="closet-thumbs">{[1, 2, 4].map((index, position) => <div key={index}><ProductVisual index={index} alt={`현재 옷 ${position + 1}`} /><span>{['니트', '가디건', '바지'][position]}</span></div>)}</div></section><div className="cycle-summary"><Sprout /><div><strong>이번 달 3벌이 다음 아이에게 갔어요</strong><span>누적 순환 12벌 · 예상 절약 84,000원</span></div></div></div></div>;
 }
 
 function BottomNav({ route, navigate }: { route: Route; navigate: (route: Route) => void }) {

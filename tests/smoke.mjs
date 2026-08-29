@@ -13,6 +13,7 @@ const hosting = JSON.parse(read('.openai/hosting.json'));
 for (const file of [
   'public/jarammaeul-logo.png',
   'public/jarammaeul-symbol.png',
+  'public/product-sprite.png',
 ]) {
   assert.ok(fs.existsSync(path.join(root, file)), `Missing ${file}`);
   assert.ok(fs.statSync(path.join(root, file)).size > 0, `Empty ${file}`);
@@ -47,6 +48,9 @@ for (const copy of [
 assert.ok(layout.includes("lang=\"ko\""), 'Root language must be Korean');
 assert.ok(layout.includes('자람마을'), 'Metadata title must include brand');
 assert.ok(page.includes('const newListingProduct'), 'New listing must not depend on filtered results');
+assert.ok(page.includes('function ProductVisual'), 'Generated product visual component is required');
+assert.ok(!page.includes('Sparkles'), 'Decorative star icon must be removed');
+assert.ok(css.includes('.product-visual'), 'Generated product sprite styles are required');
 for (const forbidden of ['시연용 예시', '실제 AI 호출 없음', '92% 확신', 'AI 제안', 'AI가 정리한 정보']) {
   assert.ok(!page.includes(forbidden), `Remove synthetic copy: ${forbidden}`);
 }
