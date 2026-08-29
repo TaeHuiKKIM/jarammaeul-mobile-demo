@@ -3,6 +3,8 @@
 모두의 AI 실험실 제출용 정적 와이어프레임입니다.
 
 - 공개 주소: https://jarammaeul-growth-loop.tae1043.chatgpt.site
+- Vercel 주소: https://jarammaeul-mobile-demo.vercel.app
+- GitHub 저장소: https://github.com/TaeHuiKKIM/jarammaeul-mobile-demo
 - 모바일: 전체 화면
 - PC: 중앙 휴대폰 프레임
 - 서체: Pretendard
