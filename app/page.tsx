@@ -17,6 +17,12 @@ const products: Product[] = [
   { id: 4, title: '110호 기모 바지 4벌', size: '110호', season: '겨울', condition: '사용감 적음', price: '18,000원', area: '대현동', distance: '2.0km', count: 4 },
   { id: 5, title: '120호 패딩·조끼 3벌', size: '120호', season: '겨울', condition: '양호', price: '38,000원', area: '칠성동', distance: '2.3km', count: 3 },
   { id: 6, title: '110호 코트·원피스 3벌', size: '110호', season: '봄·가을', condition: '깨끗함', price: '21,000원', area: '고성동', distance: '2.7km', count: 3 },
+  { id: 7, title: '100호 데님 멜빵·티셔츠 2벌', size: '100호', season: '봄·가을', condition: '깨끗함', price: '16,000원', area: '침산동', distance: '0.6km', count: 2 },
+  { id: 8, title: '110호 바람막이 등원룩 2벌', size: '110호', season: '봄·가을', condition: '사용감 적음', price: '19,000원', area: '산격동', distance: '1.1km', count: 2 },
+  { id: 9, title: '100호 봄 가디건 3벌', size: '100호', season: '봄·가을', condition: '깨끗함', price: '24,000원', area: '복현동', distance: '1.4km', count: 3 },
+  { id: 10, title: '아동 운동화·모자 꾸러미', size: '110호', season: '봄·가을', condition: '양호', price: '17,000원', area: '대현동', distance: '1.9km', count: 3 },
+  { id: 11, title: '100호 여름 상하의 4벌', size: '100호', season: '여름', condition: '사용감 적음', price: '15,000원', area: '칠성동', distance: '2.2km', count: 4 },
+  { id: 12, title: '120호 가디건·치마 2벌', size: '120호', season: '가을', condition: '깨끗함', price: '23,000원', area: '고성동', distance: '2.5km', count: 2 },
 ];
 const newListingProduct: Product = { ...products[0], id: 1, title: '110호 가을 성장꾸러미 6벌', area: '김태희 · 침산동', distance: '방금 전' };
 const categories = ['전체', '100호', '110호', '120호', '봄·가을', '겨울'];
@@ -72,19 +78,19 @@ export default function JaramVillageDemo() {
 }
 
 function BrandHeader({ compact = false }: { compact?: boolean }) {
-  return <header className={`brand-header ${compact ? 'compact' : ''}`}><div className="location-block"><img src="/jarammaeul-symbol.png" alt="자람마을" className="brand-symbol" /><div><strong>자람마을</strong><button type="button" aria-label="생활권 선택">대구 북구 · 생활권 <ChevronDown /></button></div></div><button type="button" className="icon-button" aria-label="알림"><Bell /></button></header>;
+  return <header className={`brand-header ${compact ? 'compact' : ''}`}><div className="location-block"><img src="/favicon.svg" alt="자람마을" className="brand-symbol" /><div><strong>자람마을</strong><button type="button" aria-label="생활권 선택">대구 북구 · 생활권 <ChevronDown /></button></div></div><button type="button" className="icon-button" aria-label="알림"><Bell /></button></header>;
 }
 
 function HomeScreen({ filter, query, products, addedListing, onFilter, onQuery, onOpen, onSell }: { filter: string; query: string; products: Product[]; addedListing: boolean; onFilter: (value: string) => void; onQuery: (value: string) => void; onOpen: (product: Product) => void; onSell: () => void }) {
-  return <div className="screen home-screen"><BrandHeader /><div className="screen-content"><div className="search-wrap"><Search aria-hidden="true" /><Input value={query} onChange={(event) => onQuery(event.target.value)} placeholder="성장꾸러미 검색" aria-label="성장꾸러미 검색" /></div><div className="category-row" aria-label="카테고리">{categories.map((category) => <button key={category} type="button" className={filter === category ? 'active' : ''} onClick={() => onFilter(category)}>{category}</button>)}</div><div className="section-heading feed-heading"><div><strong>{filter === '전체' ? '우리 동네 성장꾸러미' : `${filter} 성장꾸러미`}</strong><span>{products.length}개의 꾸러미</span></div><button type="button">최신순</button></div><div className="product-grid">{addedListing && <ProductCard product={newListingProduct} onOpen={() => onOpen(newListingProduct)} highlight />}{products.map((product) => <ProductCard key={product.id} product={product} onOpen={() => onOpen(product)} />)}</div>{products.length === 0 && <div className="empty-state"><Search /><strong>조건에 맞는 성장꾸러미가 없어요</strong><span>다음 옷 기다림을 등록하면 알려드릴게요.</span></div>}</div><button type="button" className="floating-sell" onClick={onSell} aria-label="성장꾸러미 등록"><PackagePlus /></button></div>;
+  return <div className="screen home-screen"><BrandHeader /><div className="screen-content"><div className="search-wrap"><Search aria-hidden="true" /><Input value={query} onChange={(event) => onQuery(event.target.value)} placeholder="성장꾸러미 검색" aria-label="성장꾸러미 검색" /></div><div className="category-row" aria-label="카테고리">{categories.map((category) => <button key={category} type="button" className={filter === category ? 'active' : ''} onClick={() => onFilter(category)}>{category}</button>)}</div><section className="cycle-flow" aria-label="우리 아이 성장순환"><div><span>지금</span><strong>110호 정리 중</strong></div><i aria-hidden="true">→</i><div><span>이어서</span><strong>판매 준비</strong></div><i aria-hidden="true">→</i><div><span>다음</span><strong>120호 기다림</strong></div></section><div className="section-heading feed-heading"><div><strong>{filter === '전체' ? '우리 동네 성장꾸러미' : `${filter} 성장꾸러미`}</strong><span>{products.length}개의 꾸러미</span></div><button type="button">최신순</button></div><div className="product-grid">{addedListing && <ProductCard product={newListingProduct} onOpen={() => onOpen(newListingProduct)} highlight />}{products.map((product) => <ProductCard key={product.id} product={product} onOpen={() => onOpen(product)} />)}</div>{products.length === 0 && <div className="empty-state"><Search /><strong>조건에 맞는 성장꾸러미가 없어요</strong><span>다음 옷 기다림을 등록하면 알려드릴게요.</span></div>}</div><button type="button" className="floating-sell" onClick={onSell} aria-label="성장꾸러미 등록"><PackagePlus /></button></div>;
 }
 
 function ProductCard({ product, onOpen, highlight = false }: { product: Product; onOpen: () => void; highlight?: boolean }) {
-  return <button type="button" className={`product-card ${highlight ? 'new-listing' : ''}`} onClick={onOpen} aria-label={`${product.title} 상세 보기`}><div className="product-image"><ProductVisual index={product.id} alt={product.title} />{highlight && <Badge>방금 등록</Badge>}</div><div className="product-copy"><div className="tag-line"><span>{product.size}</span><span>{product.season}</span></div><strong>{product.title}</strong><b>{product.price}</b><small>{product.area} · {product.distance}</small></div></button>;
+  return <button type="button" className={`product-card ${highlight ? 'new-listing' : ''}`} onClick={onOpen} aria-label={`${product.title} 상세 보기`}><div className="product-image"><ProductVisual index={product.id} alt={product.title} /></div><div className="product-copy"><div className="tag-line"><span>{product.size}</span><span>{product.season}</span></div><strong>{product.title}</strong><b>{product.price}</b><small className={highlight ? 'recent-meta' : ''}>{highlight && <span aria-hidden="true" />}{product.area} · {product.distance}</small></div></button>;
 }
 
 function ProductVisual({ index, alt, className = '' }: { index: number; alt: string; className?: string }) {
-  const normalized = ((index - 1) % 6) + 1;
+  const normalized = ((index - 1) % 12) + 1;
   return <div className={`product-visual visual-${normalized} ${className}`} role="img" aria-label={alt} />;
 }
 

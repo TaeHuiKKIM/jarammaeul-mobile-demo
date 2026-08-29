@@ -16,9 +16,15 @@ for (const copy of ['자람마을', '성장꾸러미', '사진에서 정보를 �
   assert.ok(app.includes(copy) || html.includes(copy), `Missing copy ${copy}`);
 }
 assert.ok(css.includes('Pretendard'));
+assert.ok(css.includes('Jua'));
+assert.ok(css.includes('.visual-12'));
 assert.ok(css.includes('.phone-shell'));
 assert.ok(css.includes('@media (max-width: 767px)'));
 assert.ok(!app.includes('Sparkles'));
+assert.ok(!app.includes('새 글'));
+assert.ok(app.includes('cycle-flow'));
+assert.ok(app.includes("['100호 여름 상하의 4벌'"));
+assert.ok(html.includes('favicon.svg'));
 assert.ok(html.includes('viewport'));
 
 console.log('vercel-static smoke: pass');

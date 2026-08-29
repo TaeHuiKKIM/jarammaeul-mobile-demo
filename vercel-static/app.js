@@ -7,22 +7,28 @@ const products = [
   ['110호 기모 바지 4벌','110호','겨울','18,000원','대현동 · 2.0km',4],
   ['120호 패딩·조끼 3벌','120호','겨울','38,000원','칠성동 · 2.3km',5],
   ['110호 코트·원피스 3벌','110호','봄·가을','21,000원','고성동 · 2.7km',6],
+  ['100호 데님 멜빵·티셔츠 2벌','100호','봄·가을','16,000원','침산동 · 0.6km',7],
+  ['110호 바람막이 등원룩 2벌','110호','봄·가을','19,000원','산격동 · 1.1km',8],
+  ['100호 봄 가디건 3벌','100호','봄·가을','24,000원','복현동 · 1.4km',9],
+  ['아동 운동화·모자 꾸러미','110호','봄·가을','17,000원','대현동 · 1.9km',10],
+  ['100호 여름 상하의 4벌','100호','여름','15,000원','칠성동 · 2.2km',11],
+  ['120호 가디건·치마 2벌','120호','가을','23,000원','고성동 · 2.5km',12],
 ];
 const state = { route:'home', selected:products[0], added:false, waiting:false };
 const screen = document.querySelector('#screen');
 const toast = document.querySelector('#toast');
 
 const visual = (index, alt, extra='') => `<div class="product-visual visual-${index} ${extra}" role="img" aria-label="${alt}"></div>`;
-const header = () => `<header class="brand-header"><div class="brand"><img src="${ASSET}/jarammaeul-symbol.png" alt=""><div><strong>자람마을</strong><span>대구 북구 · 생활권</span></div></div><button class="plain" aria-label="알림">알림</button></header>`;
+const header = () => `<header class="brand-header"><div class="brand"><img src="${ASSET}/favicon.svg" alt=""><div><strong>자람마을</strong><span>대구 북구 · 생활권</span></div></div><button class="plain" aria-label="알림">알림</button></header>`;
 const top = (title) => `<header class="screen-top"><button data-back aria-label="뒤로가기">‹</button><strong>${title}</strong><button class="plain" aria-label="찜하기">찜</button></header>`;
 const tags = (size, season) => `<div class="tags"><span>${size}</span><span>${season}</span></div>`;
 
 function productRow(p, fresh=false) {
-  return `<button class="product-row" data-product="${p[5]}">${visual(p[5],p[0])}<div class="product-copy">${tags(p[1],p[2])}<strong>${p[0]}</strong><b>${p[3]}</b><small>${fresh?'김태희 · 방금 전':p[4]}</small></div>${fresh?'<i>새 글</i>':''}</button>`;
+  return `<button class="product-row" data-product="${p[5]}">${visual(p[5],p[0])}<div class="product-copy">${tags(p[1],p[2])}<strong>${p[0]}</strong><b>${p[3]}</b><small class="${fresh?'recent-meta':''}">${fresh?'<span></span>김태희 · 방금 전':p[4]}</small></div></button>`;
 }
 
 function home() {
-  return `<div class="screen">${header()}<div class="content"><label class="search">검색<input id="search" placeholder="성장꾸러미 검색"></label><div class="chips">${['전체','100호','110호','120호','봄·가을','겨울'].map(x=>`<button>${x}</button>`).join('')}</div><div class="feed-title"><strong>우리 동네 성장꾸러미</strong><span>${products.length}개의 꾸러미</span><button>최신순</button></div><div class="product-list">${state.added?productRow([...products[0]],true):''}${products.map(p=>productRow(p)).join('')}</div></div><button class="fab" data-route="sell" aria-label="성장꾸러미 등록">＋</button></div>`;
+  return `<div class="screen">${header()}<div class="content"><label class="search">검색<input id="search" placeholder="성장꾸러미 검색"></label><div class="chips">${['전체','100호','110호','120호','봄·가을','겨울'].map(x=>`<button>${x}</button>`).join('')}</div><section class="cycle-flow" aria-label="우리 아이 성장순환"><div><span>지금</span><strong>110호 정리 중</strong></div><i>→</i><div><span>이어서</span><strong>판매 준비</strong></div><i>→</i><div><span>다음</span><strong>120호 기다림</strong></div></section><div class="feed-title"><strong>우리 동네 성장꾸러미</strong><span>${products.length}개의 꾸러미</span><button>최신순</button></div><div class="product-list">${state.added?productRow([...products[0]],true):''}${products.map(p=>productRow(p)).join('')}</div></div><button class="fab" data-route="sell" aria-label="성장꾸러미 등록">＋</button></div>`;
 }
 
 function detail() {

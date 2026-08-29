@@ -7,7 +7,9 @@
 - GitHub 저장소: https://github.com/TaeHuiKKIM/jarammaeul-mobile-demo
 - 모바일: 전체 화면
 - PC: 중앙 휴대폰 프레임
-- 서체: Pretendard
+- 서체: 본문 Pretendard · 브랜드명 Jua
+- 홈 피드: 생활권 매물 12개와 `정리 → 판매 → 다음 사이즈 기다림` 흐름
+- 브랜드 아이콘: 배경 없는 SVG 파비콘과 헤더 심벌
 
 ## 시연 순서
 

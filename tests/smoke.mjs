@@ -13,7 +13,9 @@ const hosting = JSON.parse(read('.openai/hosting.json'));
 for (const file of [
   'public/jarammaeul-logo.png',
   'public/jarammaeul-symbol.png',
+  'public/favicon.svg',
   'public/product-sprite.png',
+  'public/product-sprite-2.png',
 ]) {
   assert.ok(fs.existsSync(path.join(root, file)), `Missing ${file}`);
   assert.ok(fs.statSync(path.join(root, file)).size > 0, `Empty ${file}`);
@@ -23,6 +25,7 @@ for (const token of [
   '--brand-green',
   '--brand-orange',
   'Pretendard',
+  'Jua',
   '.phone-shell',
   '@media (max-width: 767px)',
   'overflow-y: auto',
@@ -48,9 +51,15 @@ for (const copy of [
 assert.ok(layout.includes("lang=\"ko\""), 'Root language must be Korean');
 assert.ok(layout.includes('자람마을'), 'Metadata title must include brand');
 assert.ok(page.includes('const newListingProduct'), 'New listing must not depend on filtered results');
+assert.ok(page.includes("id: 12"), 'Home feed must include twelve distinct listings');
+assert.ok(page.includes('cycle-flow'), 'Home must make the growth loop visible');
+assert.ok(!page.includes('방금 등록'), 'Recent listing must use quiet metadata instead of a badge');
 assert.ok(page.includes('function ProductVisual'), 'Generated product visual component is required');
 assert.ok(!page.includes('Sparkles'), 'Decorative star icon must be removed');
 assert.ok(css.includes('.product-visual'), 'Generated product sprite styles are required');
+assert.ok(css.includes('.visual-12'), 'Second product sprite must expose all six new visuals');
+assert.ok(css.includes("font-family: 'Jua'"), 'Wordmark must use a rounded Korean display face');
+assert.ok(layout.includes('/favicon.svg'), 'Transparent favicon must be wired into metadata');
 for (const forbidden of ['시연용 예시', '실제 AI 호출 없음', '92% 확신', 'AI 제안', 'AI가 정리한 정보']) {
   assert.ok(!page.includes(forbidden), `Remove synthetic copy: ${forbidden}`);
 }
