@@ -26,5 +26,13 @@ assert.ok(app.includes('cycle-flow'));
 assert.ok(app.includes("['100호 여름 상하의 4벌'"));
 assert.ok(html.includes('favicon.svg'));
 assert.ok(html.includes('viewport'));
+assert.ok(app.includes('const icon ='), 'Dynamic headers must use the shared SVG icon system');
+assert.ok(!app.includes('aria-label="알림">알림</button>'), 'Notification must render as an icon, not text');
+assert.ok(!app.includes('aria-label="찜하기">찜</button>'), 'Favorite must render as a heart icon, not text');
+for (const iconName of ['home', 'bell', 'package-plus', 'shopping-bag']) {
+  assert.ok(html.includes(`data-icon="${iconName}"`), `Missing bottom navigation icon: ${iconName}`);
+}
+assert.ok(css.includes('.ui-icon'));
+assert.ok(css.includes('.bottom-nav button > span'));
 
 console.log('vercel-static smoke: pass');

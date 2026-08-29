@@ -18,9 +18,15 @@ const state = { route:'home', selected:products[0], added:false, waiting:false }
 const screen = document.querySelector('#screen');
 const toast = document.querySelector('#toast');
 
+const iconPaths = {
+  bell: '<path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/>',
+  heart: '<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8Z"/>',
+  'arrow-left': '<path d="m15 18-6-6 6-6"/>',
+};
+const icon = (name) => `<svg class="ui-icon" data-icon="${name}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${iconPaths[name]}</svg>`;
 const visual = (index, alt, extra='') => `<div class="product-visual visual-${index} ${extra}" role="img" aria-label="${alt}"></div>`;
-const header = () => `<header class="brand-header"><div class="brand"><img src="${ASSET}/favicon.svg" alt=""><div><strong>자람마을</strong><span>대구 북구 · 생활권</span></div></div><button class="plain" aria-label="알림">알림</button></header>`;
-const top = (title) => `<header class="screen-top"><button data-back aria-label="뒤로가기">‹</button><strong>${title}</strong><button class="plain" aria-label="찜하기">찜</button></header>`;
+const header = () => `<header class="brand-header"><div class="brand"><img src="${ASSET}/favicon.svg" alt=""><div><strong>자람마을</strong><span>대구 북구 · 생활권</span></div></div><button class="plain icon-only" aria-label="알림">${icon('bell')}</button></header>`;
+const top = (title) => `<header class="screen-top"><button class="icon-only" data-back aria-label="뒤로가기">${icon('arrow-left')}</button><strong>${title}</strong><button class="plain icon-only" aria-label="찜하기">${icon('heart')}</button></header>`;
 const tags = (size, season) => `<div class="tags"><span>${size}</span><span>${season}</span></div>`;
 
 function productRow(p, fresh=false) {
