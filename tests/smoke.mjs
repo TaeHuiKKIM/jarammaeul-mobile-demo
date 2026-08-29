@@ -21,6 +21,7 @@ for (const file of [
 for (const token of [
   '--brand-green',
   '--brand-orange',
+  'Pretendard',
   '.phone-shell',
   '@media (max-width: 767px)',
   'overflow-y: auto',
@@ -37,8 +38,7 @@ for (const copy of [
   '대구 북구 · 생활권',
   '성장꾸러미',
   '다음 옷 기다림',
-  'AI가 사진을 정리했어요',
-  '시연용 예시',
+  '사진에서 정보를 읽었어요',
   '내 옷장',
 ]) {
   assert.ok(page.includes(copy), `Missing product copy: ${copy}`);
@@ -47,6 +47,11 @@ for (const copy of [
 assert.ok(layout.includes("lang=\"ko\""), 'Root language must be Korean');
 assert.ok(layout.includes('자람마을'), 'Metadata title must include brand');
 assert.ok(page.includes('const newListingProduct'), 'New listing must not depend on filtered results');
+for (const forbidden of ['시연용 예시', '실제 AI 호출 없음', '92% 확신', 'AI 제안', 'AI가 정리한 정보']) {
+  assert.ok(!page.includes(forbidden), `Remove synthetic copy: ${forbidden}`);
+}
+assert.ok(page.includes('사진에서 읽은 정보'), 'Photo extraction copy is required');
+assert.ok(page.includes('확인 필요 1개'), 'Human review cue is required');
 assert.equal(hosting.d1, null);
 assert.equal(hosting.r2, null);
 
