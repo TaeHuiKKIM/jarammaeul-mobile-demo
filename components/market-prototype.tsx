@@ -17,7 +17,6 @@ import {
   SlidersHorizontal,
   PackageCheck,
   X,
-  RefreshCw,
   CheckCircle2,
   ShieldCheck,
   MapPin,
@@ -44,7 +43,7 @@ const catalog: Item[] = [
     price: 29000,
     image: 1,
     category: '상의',
-    condition: '사용감 적어요',
+    condition: '소매 보풀 있어요',
     area: '침산동',
   },
   {
@@ -74,7 +73,7 @@ const catalog: Item[] = [
     price: 18000,
     image: 4,
     category: '하의',
-    condition: '사용감 적어요',
+    condition: '무릎 사용감 있어요',
     area: '대현동',
   },
   {
@@ -125,7 +124,7 @@ const catalog: Item[] = [
     price: 24000,
     image: 9,
     category: '상의',
-    condition: '깨끗해요',
+    condition: '보풀 조금',
     area: '복현동',
     future: true,
   },
@@ -146,7 +145,7 @@ const catalog: Item[] = [
     price: 15000,
     image: 11,
     category: '꾸러미',
-    condition: '사용감 적어요',
+    condition: '작은 얼룩 있어요',
     area: '칠성동',
   },
   {
@@ -192,7 +191,7 @@ const visual = (p: Item) => (
     aria-label={p.title}
     className="j-photo"
     style={{
-      backgroundImage: `url('/product-sprite${p.image > 6 ? '-2' : ''}.png')`,
+      backgroundImage: `url('/used-clothes${p.image > 6 ? '-2' : '-1'}.png')`,
       backgroundPosition: `${((p.image - 1) % 3) * 50}% ${Math.floor(((p.image - 1) % 6) / 3) * 100}%`,
     }}
   />
@@ -458,9 +457,6 @@ export default function Market() {
           <Leaf size={18} />
           <span>옷 하나의 끝이, 다른 아이의 시작으로.</span>
         </div>
-        <button className="j-text-button" onClick={() => setModal('about')}>
-          프로토타입 체험 안내 <ArrowRight size={14} />
-        </button>
       </aside>
       <section className="j-phone" aria-label="자람마을 앱">
         <div className="j-device-bar">
@@ -579,12 +575,6 @@ export default function Market() {
                     </button>
                   </div>
                 )}
-                <button
-                  className="j-small-note"
-                  onClick={() => setModal('about')}
-                >
-                  체험 안내 및 처음부터 시작
-                </button>
               </div>
             </>
           )}
@@ -805,10 +795,10 @@ export default function Market() {
                     className="j-outline"
                     onClick={() => {
                       update({ ready: true });
-                      toast('체험: 기다리던 옷의 판매 알림이 도착했어요');
+                      toast('예시 알림: 기다리던 옷의 판매 준비가 끝났어요');
                     }}
                   >
-                    판매 알림 도착 체험 <Bell size={16} />
+                    판매 소식 확인 <Bell size={16} />
                   </button>
                 )}
                 <div className="j-section-title">
@@ -959,10 +949,9 @@ export default function Market() {
                       </div>
                     )}
                     <div className="j-demo-note">
-                      <strong>분석 체험 안내</strong>
+                      <strong>AI 분석 미리보기</strong>
                       <p>
-                        실제 AI 호출 없이 예시 옷 3벌로 체험해요. 선택한 사진은
-                        서버로 전송하거나 분석하지 않아요.
+                        예시 옷으로 진행되는 시뮬레이션이에요. 내 사진은 기기에서만 확인할 수 있어요.
                       </p>
                     </div>
                     <button
@@ -972,7 +961,7 @@ export default function Market() {
                         setStep(1);
                       }}
                     >
-                      예시 옷으로 분석 시작 <ArrowRight size={18} />
+                      예시 옷 분석하기 <ArrowRight size={18} />
                     </button>
                   </>
                 )}
@@ -1258,7 +1247,7 @@ export default function Market() {
               )}
               {modal === 'purchase' && (
                 <>
-                  <span className="j-overline">구매 체험</span>
+                  <span className="j-overline">구매 확인</span>
                   <h2 id="sheet-title">
                     선택한 {picked.length}벌을
                     <br />내 옷장에 담을까요?
@@ -1314,7 +1303,7 @@ export default function Market() {
                       toast('구매한 옷이 성장 옷장에 기록됐어요');
                     }}
                   >
-                    구매 완료 체험 <PackageCheck size={18} />
+                    내 옷장에 담기 <PackageCheck size={18} />
                   </button>
                 </>
               )}
@@ -1354,9 +1343,6 @@ export default function Market() {
                       </span>
                     </button>
                   )}
-                  <p className="j-meta">
-                    이 브라우저에서 진행한 체험 알림입니다.
-                  </p>
                 </>
               )}
               {modal === 'filters' && (
@@ -1383,34 +1369,6 @@ export default function Market() {
                     }}
                   >
                     적용하기
-                  </button>
-                </>
-              )}
-              {modal === 'about' && (
-                <>
-                  <h2 id="sheet-title">자람마을 체험 안내</h2>
-                  <p>
-                    옷 찾기, 다음 순환 기다림, 성장 확인, 재판매를 직접 체험할
-                    수 있어요.
-                  </p>
-                  <p>
-                    AI 분석은 준비된 예시로 진행하는 시뮬레이션입니다.
-                    결제·실거래·메시지 전송은 없으며 체험 상태만 현재 브라우저에
-                    저장됩니다.
-                  </p>
-                  <button
-                    className="j-outline"
-                    onClick={() => {
-                      setM(initial);
-                      setStep(0);
-                      setOnlyLikes(false);
-                      setFilter('전체');
-                      setQuery('');
-                      go('home');
-                      toast('처음 상태로 돌아왔어요');
-                    }}
-                  >
-                    <RefreshCw size={17} /> 체험 처음부터 시작
                   </button>
                 </>
               )}

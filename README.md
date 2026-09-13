@@ -4,6 +4,8 @@
 
 ## 최신 실행·빌드
 
+- 2026-09-14 후속 개선: 생활감 있는 중고 의류 이미지 교체, 홈/PC 체험 안내·초기화 링크 제거. 상세 기록: `docs/2026-09-14-realistic-clothing.md`.
+
 - 개발: `npx vite --config vite.prototype.config.ts --host 127.0.0.1` → `http://127.0.0.1:3013/prototype.html`
 - Vercel용 동일 UI 빌드: `node scripts/build-prototype.mjs` → `vercel-static-v3/index.html`
 - Sites/React 앱: `npm run build`
@@ -22,7 +24,7 @@
 5. 예시 사진 분석 → 사이즈/얼룩 확인 → 수정한 판매글 등록
 6. 옷장 성장 확인 → 이전 정보 재사용 → 재판매
 
-상태는 현재 브라우저에 저장되며 체험 안내에서 초기화할 수 있습니다. 업로드 이미지는 브라우저 미리보기만 제공하며 실제 AI 인식 결과로 사용하지 않습니다.
+상태는 현재 브라우저에 저장됩니다. 업로드 이미지는 브라우저 미리보기만 제공하며 실제 AI 인식 결과로 사용하지 않습니다. 홈의 체험 안내·초기화 링크는 제거했습니다.
 
 - 공개 주소: https://jarammaeul-growth-loop.tae1043.chatgpt.site
 - Vercel 주소: https://jarammaeul-mobile-demo.vercel.app
