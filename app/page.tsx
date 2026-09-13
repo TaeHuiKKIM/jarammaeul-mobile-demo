@@ -32,7 +32,8 @@ function routeFromHash(): Route {
   return ['home', 'detail', 'sell', 'review', 'waitlist', 'closet'].includes(value) ? value : 'home';
 }
 
-export default function JaramVillageDemo() {
+export {default} from '../components/market-prototype';
+function JaramVillageDemo() {
   const [route, setRoute] = useState<Route>('home');
   const [filter, setFilter] = useState('전체');
   const [query, setQuery] = useState('');

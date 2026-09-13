@@ -1,6 +1,28 @@
 # 자람마을 모바일 데모
 
-모두의 AI 실험실 제출용 정적 와이어프레임입니다.
+2026-09-14 원티드 제출 준비용 인터랙티브 프로토타입으로 개선했습니다. AI는 예시 기반 시뮬레이션이며 실제 결제·거래는 없습니다.
+
+## 최신 실행·빌드
+
+- 개발: `npx vite --config vite.prototype.config.ts --host 127.0.0.1` → `http://127.0.0.1:3013/prototype.html`
+- Vercel용 동일 UI 빌드: `node scripts/build-prototype.mjs` → `vercel-static-v3/index.html`
+- Sites/React 앱: `npm run build`
+- 핵심 계산 검증: `node --test tests/prototype.test.mjs`
+- 타입 검사: `npx tsc --noEmit`
+- 화면 소스: `components/market-prototype.tsx`, `app/prototype.css`
+- 설계·회귀예방: `docs/2026-09-13-wanted-prototype.md`
+- 구버전 `vercel-static/`는 과거 제출용으로 보존하며 새 배포에는 사용하지 않습니다.
+
+## 새 체험 흐름
+
+1. 검색·사이즈 필터·찜으로 옷 탐색
+2. 낱개/소묶음 선택과 10% 할인 계산, 상태 동의 후 구매 체험
+3. 구매 이력 옷장 반영과 남은 상품 선택 관리
+4. 특정 옷 기다림 등록, 판매 알림 도착 체험
+5. 예시 사진 분석 → 사이즈/얼룩 확인 → 수정한 판매글 등록
+6. 옷장 성장 확인 → 이전 정보 재사용 → 재판매
+
+상태는 현재 브라우저에 저장되며 체험 안내에서 초기화할 수 있습니다. 업로드 이미지는 브라우저 미리보기만 제공하며 실제 AI 인식 결과로 사용하지 않습니다.
 
 - 공개 주소: https://jarammaeul-growth-loop.tae1043.chatgpt.site
 - Vercel 주소: https://jarammaeul-mobile-demo.vercel.app
